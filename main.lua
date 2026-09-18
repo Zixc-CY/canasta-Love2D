@@ -1,6 +1,6 @@
-require('jugador')
-require ('colisiones')
-require ('sonido')
+require('Code.jugador')
+require ('Code.colisiones')
+require ('Code.sonido')
 --=================== DECLARACION ===================
 fondo= nil
 puntaje = 0
@@ -12,7 +12,7 @@ function love.load()
     iniciarjugador()
     cargarsonidos()
     love.window.setTitle("Cronómetro y Puntaje")
-    fondo= love.graphics.newImage("Fondo.jpeg")
+    fondo= love.graphics.newImage("Backround/Fondo.jpeg")
 end            
 
 function love.update(dt)

@@ -31,11 +31,11 @@ salto= {
 }
 
  function iniciarjugador()
-   jugador.sheet= love.graphics.newImage("sheet.png")
+   jugador.sheet= love.graphics.newImage("Assets/sheet.png")
     for i = 0, 7, 1 do
         table.insert(jugador.anim_move, love.graphics.newQuad(175 * i, 0, 175, 184, 1401, 184)) 
     end
-    jugador.vsx= love.graphics.newImage("vsx.png")
+    jugador.vsx= love.graphics.newImage("VFX/vsx.png")
     for i = 1, 4, 1 do
         table.insert(jugador.vsx_move, love.graphics.newQuad(118 * i, 0, 100, 116, 474, 116))
     end
