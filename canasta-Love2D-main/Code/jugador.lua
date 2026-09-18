@@ -14,13 +14,13 @@ jugador={
     anim_move_vel=10,
     vsx= nil,
     vsx_move={},
-    index_vsx_move= 1,
-    anim_vsx_move_vel= 10,
+    index_vfx_move= 1,
+    anim_vfx_move_vel= 10,
 }
 salto= {
     inicial= 0,
-    fuerza= 700,
-    limite= 900,
+    fuerza= 300,
+    limite= 400,
 }
 
  function iniciarjugador()
@@ -51,7 +51,7 @@ function actualizarjugador(dt)
         end
     else
         if salto.inicial > 0 then
-            jugador.velocidady= -salto.inicial
+            pelota:applyLinearImpulse(0, -salto.inicial)
             salto.inicial= 0
         end
     end
@@ -61,12 +61,13 @@ function actualizarjugador(dt)
         puntaje= 0
         tiempo= 30 
     end
-    
+    local vx, vy = pelota:getLinearVelocity()
     if love.keyboard.isDown("left", "a") then
-        jugador.x= jugador.x - (jugador.velocidad * dt)
-    end  
-    if love.keyboard.isDown("right", "d") then
-        jugador.x= jugador.x + (jugador.velocidad * dt)
+        pelota:setLinearVelocity(-jugador.velocidad, vy)
+    elseif love.keyboard.isDown("right", "d") then
+        pelota:setLinearVelocity(jugador.velocidad, vy)
+    --else
+        --pelota:setLinearVelocity(0, vy)
     end
     
     --jugador.velocidady= jugador.velocidady + (jugador.gravedad * dt)
@@ -80,18 +81,18 @@ function actualizarjugador(dt)
         jugador.index_anim_move = 1
     end
     if love.keyboard.isDown ("space") then
-        jugador.index_vsx_move= jugador.index_vsx_move + (jugador.anim_vsx_move_vel * dt)
-        if jugador.index_vsx_move > #jugador.vsx_move then
-            jugador.index_vsx_move= 1
+        jugador.index_vfx_move= jugador.index_vfx_move + (jugador.anim_vfx_move_vel * dt)
+        if jugador.index_vfx_move > #jugador.vsx_move then
+            jugador.index_vfx_move= 1
         end
     else
-        jugador.index_vsx_move = 1
+        jugador.index_vfx_move = 1
         
     end
 end
 function dibujarjugador()
      if salto.inicial >= salto.limite then
-        local frame = math.floor(jugador.index_vsx_move)
+        local frame = math.floor(jugador.index_vfx_move)
         if jugador.vsx_move[frame] then
             love.graphics.draw(jugador.vsx, jugador.vsx_move[frame], pelota:getX(), pelota:getY(), 0, 1.1, 1.1, jugador.origenx / 1.9, jugador.origeny/0.8)
         end
