@@ -1,6 +1,7 @@
 require('Code.jugador')
-require ('Code.colisiones')
+--require ('Code.colisiones')
 require ('Code.sonido')
+require ('Code.Nuevascolisiones')
 --=================== DECLARACION ===================
 fondo= nil
 puntaje = 0
@@ -11,13 +12,15 @@ juegoActivo = false
 function love.load()
     iniciarjugador()
     cargarsonidos()
+    nuevascolisiones()
     love.window.setTitle("Cronómetro y Puntaje")
     fondo= love.graphics.newImage("Backround/Fondo.jpeg")
 end            
 
 function love.update(dt)
     actualizarjugador (dt)
-    cargarcolisionadores(dt)  
+    --cargarcolisionadores(dt)  
+    cargarnuevascolisiones(dt)
     if juegoActivo == true then
         tiempo = tiempo - dt
 
@@ -43,7 +46,6 @@ function love.draw()
     love.graphics.draw(fondo,0,0,0,0.5,0.625)
     love.graphics.print("Puntaje: " .. puntaje, 380, 40, 0, 2, 2)
     love.graphics.print("Tiempo: " .. math.ceil(tiempo), 20, 20, 0, 2, 2)
-    
     if puntaje >= maxPuntaje then
         love.graphics.print("GANASTE", 20, 80)
     end
@@ -54,4 +56,5 @@ function love.draw()
         love.graphics.print("¡Colisión detectada!", 10, 10)
     end
     dibujarjugador()
+    dibujarcolisiones()
 end
