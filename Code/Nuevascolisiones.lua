@@ -32,13 +32,23 @@ function beginContact(a, b, coll)
             sfx:play()
         end
     end
+    if (a == pelotaacople and b == sueloacople) or
+     (a == sueloacople and b == pelotaacople) then
+        PelotaEnelSuelo = true
+    end
 end
-
+function endContact(a,b,coll)
+    if (a == pelotaacople and b == sueloacople) or
+     (a == sueloacople and b == pelotaacople) then
+        PelotaEnelSuelo = false
+    end
+    
+end
 function nuevascolisiones()
     love.physics.setMeter(64)
     world = love.physics.newWorld(0, 9.81 * 64, true)
 
-    world:setCallbacks(beginContact)
+    world:setCallbacks(beginContact, endContact)
 
     suelo = love.physics.newBody(world, Suelo.x, Suelo.Y)
     sueloforma = love.physics.newRectangleShape(Suelo.ancho, Suelo.alto)

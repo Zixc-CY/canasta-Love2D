@@ -43,23 +43,25 @@ function actualizarjugador(dt)
     jugador.y = pelota:getY()
     jugador.anteriorx= jugador.x
     jugador.anteriory= jugador.y 
-    if love.mouse.isDown(1) or love.keyboard.isDown("space") then
-        if salto.inicial < salto.limite then
-            salto.inicial= salto.inicial + (salto.fuerza * dt)
+    if PelotaEnelSuelo then
+     if love.mouse.isDown(1) or love.keyboard.isDown("space") then
+            if salto.inicial < salto.limite then
+                salto.inicial= salto.inicial + (salto.fuerza * dt)
+         else
+             salto.inicial= salto.limite
+         end
         else
-            salto.inicial= salto.limite
-        end
-    else
-        if salto.inicial > 0 then
-            pelota:applyLinearImpulse(0, -salto.inicial)
-            salto.inicial= 0
-        end
+            if salto.inicial > 0 then
+             pelota:applyLinearImpulse(0, -salto.inicial)
+                salto.inicial= 0
+            end
+     end
     end
-    
-    if love.keyboard.isDown("r") then
+     
+     if love.keyboard.isDown("r") then
        pelota:setPosition(150, 230)
         puntaje= 0
-        tiempo= 30 
+        tiempo= 120
     end
     local vx, vy = pelota:getLinearVelocity()
     if love.keyboard.isDown("left", "a") then

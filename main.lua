@@ -5,7 +5,7 @@ require ('Code.Nuevascolisiones')
 fondo= nil
 puntaje = 0
 maxPuntaje = 10
-tiempo = 30  
+tiempo = 120  
 juegoActivo = false 
 --cargando
 function love.load()
