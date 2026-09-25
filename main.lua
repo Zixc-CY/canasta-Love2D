@@ -1,5 +1,4 @@
 require('Code.jugador')
---require ('Code.colisiones')
 require ('Code.sonido')
 require ('Code.Nuevascolisiones')
 --=================== DECLARACION ===================
@@ -18,8 +17,7 @@ function love.load()
 end            
 
 function love.update(dt)
-    actualizarjugador (dt)
-    --cargarcolisionadores(dt)  
+    actualizarjugador (dt) 
     cargarnuevascolisiones(dt)
     if juegoActivo == true then
         tiempo = tiempo - dt

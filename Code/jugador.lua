@@ -66,8 +66,8 @@ function actualizarjugador(dt)
         pelota:setLinearVelocity(-jugador.velocidad, vy)
     elseif love.keyboard.isDown("right", "d") then
         pelota:setLinearVelocity(jugador.velocidad, vy)
-    --else
-        --pelota:setLinearVelocity(0, vy)
+      --else
+        -- pelota:setLinearVelocity(0, vy)
     end
     
     --jugador.velocidady= jugador.velocidady + (jugador.gravedad * dt)

@@ -22,9 +22,23 @@ Aro = {
     alto = 10,
     ancho = 70
 }
+
+function beginContact(a, b, coll)
+    if (a == pelotaacople and b == aroacople) or
+     (a == aroacople and b == pelotaacople) then
+        local vx, vy = pelota:getLinearVelocity()
+        if vy > 0 then
+            puntaje = puntaje + 1
+            sfx:play()
+        end
+    end
+end
+
 function nuevascolisiones()
     love.physics.setMeter(64)
     world = love.physics.newWorld(0, 9.81 * 64, true)
+
+    world:setCallbacks(beginContact)
 
     suelo = love.physics.newBody(world, Suelo.x, Suelo.Y)
     sueloforma = love.physics.newRectangleShape(Suelo.ancho, Suelo.alto)
@@ -35,7 +49,8 @@ function nuevascolisiones()
     pelotaforma = love.physics.newCircleShape(Pelota.alto * 0.4)
     pelotaacople = love.physics.newFixture(pelota, pelotaforma,1)
     pelotaacople:setRestitution(0.7)
-    pelotaacople:setFriction(0.5)
+    pelotaacople:setFriction(5)
+    pelota:setAngularDamping(2.5)
 
     tablero = love.physics.newBody(world, Tablero.x, Tablero.y)
     tableroforma = love.physics.newRectangleShape(Tablero.ancho, Tablero.alto)  
