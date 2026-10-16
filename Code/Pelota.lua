@@ -124,11 +124,6 @@ function Pelota:actualizar(dt)
         end
     end
 
-    if love.keyboard.isDown("r") then
-        self:reiniciar()
-        self.hud:reiniciar()
-    end
-
     local vx, vy = self:getLinearVelocity()
     if love.keyboard.isDown("left", "a") then
         self:setLinearVelocity(-self.velocidad, vy)

@@ -17,6 +17,14 @@ function HUD:reiniciar()
     self.juegoActivo = false
 end
 
+function HUD:agregartiempo(segundos)
+    if not self.juegoActivo then
+        return
+    end
+
+    self.tiempo = self.tiempo + segundos
+end
+
 function HUD:iniciar()
     if not self.juegoActivo and self.puntaje < self.puntajeMaximo and self.tiempo > 0 then
         self.juegoActivo = true
@@ -24,9 +32,15 @@ function HUD:iniciar()
 end
 
 function HUD:sumarPunto()
+    if self.puntaje >= self.puntajeMaximo then
+        return
+    end
+
     self.puntaje = self.puntaje + 1
+
     if self.puntaje >= self.puntajeMaximo then
         self.juegoActivo = false
+        signal.emit("puntaje_maximo", self.puntaje)
     end
 end
 

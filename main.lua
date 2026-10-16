@@ -2,38 +2,72 @@ require('Code.Pelota')
 local HUD = require('Code.HUD')
 --require('Code.jugador')
 require ('Code.sonido')
-require ('Code.class')
-require ('Code.signal')
-require ('Code.timer')
+signal = require ('Code.signal')
 require ('Code.Nuevascolisiones')
+
 --=================== DECLARACION ===================
+
 fondo= nil
 local maxPuntaje = 10
-local tiempoInicial = 120
+local tiempoInicial = 10
 local hud
---cargando
+juegoCongelado = false
+
+--=================== Cargando ===================
+
 function love.load()
    -- iniciarjugador()
     cargarsonidos()
     hud = HUD.new(maxPuntaje, tiempoInicial)
     nuevascolisiones(hud)
+
+    signal.register("agregar_tiempo", function(segundos)
+        hud:agregartiempo(segundos)
+    end)
+
+    signal.register("puntaje_maximo", function(puntaje)
+        juegoCongelado = true
+    end)
+
+    signal.register ("sumar_punto", function()
+        signal.emit("agregar_tiempo", 5)
+        hud:sumarPunto()
+    end)    
+
+    signal.register("reiniciar", function()
+        hud:reiniciar()
+        pelota:reiniciar()
+        juegoCongelado = false
+    end)
+
     love.window.setTitle("Cronómetro y Puntaje")
     fondo= love.graphics.newImage("Backround/Fondo.jpeg")
 end            
 
+--=================== Actualización ===================
+
 function love.update(dt)
     --pelota:update()
-    pelota:actualizar(dt)
+    if not juegoCongelado then
+        pelota:actualizar(dt)
     --actualizarjugador (dt) 
-    cargarnuevascolisiones(dt)
+        cargarnuevascolisiones(dt)
+    end
     hud:actualizar(dt)
 end
 
 function love.keypressed(key)
-    if key == "space" or key == "r" or key == "left" or key == "a" or key == "right" or key == "d" then
+    if key == "r" then
+        signal.emit("reiniciar")
+        return
+    end
+
+    if key == "space" or key == "left" or key == "a" or key == "right" or key == "d" then
         hud:iniciar()
     end
 end
+
+--=================== Dibujo ===================
 
 function love.draw()
     love.graphics.draw(fondo,0,0,0,0.5,0.625)

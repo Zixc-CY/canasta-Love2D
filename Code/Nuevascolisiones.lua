@@ -28,7 +28,7 @@ function beginContact(a, b, coll)
      (a == aroacople and b == pelota.fixture) then
         local vx, vy = pelota:getLinearVelocity()
         if vy > 0 then
-            hud:sumarPunto()
+           signal.emit("sumar_punto")
             sfx:play()
         end
     end
