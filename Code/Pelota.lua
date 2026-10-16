@@ -2,9 +2,10 @@
 Pelota = {}
 Pelota.__index = Pelota
 
-function Pelota.new(world, x, y)
+function Pelota.new(world, x, y, hud)
     local self = setmetatable({}, Pelota)
 
+    self.hud = hud
     self.posicionInicialX = x
     self.posicionInicialY = y
 
@@ -125,8 +126,7 @@ function Pelota:actualizar(dt)
 
     if love.keyboard.isDown("r") then
         self:reiniciar()
-        puntaje = 0
-        tiempo = 120
+        self.hud:reiniciar()
     end
 
     local vx, vy = self:getLinearVelocity()

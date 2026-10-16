@@ -21,12 +21,14 @@ Aro = {
     ancho = 70
 }
 
+local hud
+
 function beginContact(a, b, coll)
     if (a == pelota.fixture and b == aroacople) or
      (a == aroacople and b == pelota.fixture) then
         local vx, vy = pelota:getLinearVelocity()
         if vy > 0 then
-            puntaje = puntaje + 1
+            hud:sumarPunto()
             sfx:play()
         end
     end
@@ -42,7 +44,8 @@ function endContact(a,b,coll)
     end
     
 end
-function nuevascolisiones()
+function nuevascolisiones(interfazHud)
+    hud = interfazHud
     love.physics.setMeter(64)
     world = love.physics.newWorld(0, 9.81 * 64, true)
 
@@ -53,7 +56,7 @@ function nuevascolisiones()
     sueloacople = love.physics.newFixture(suelo, sueloforma)
     sueloacople:setFriction(5)
 
-    pelota = Pelota.new(world, PelotaConfig.x, PelotaConfig.y)
+    pelota = Pelota.new(world, PelotaConfig.x, PelotaConfig.y, hud)
 
     tablero = love.physics.newBody(world, Tablero.x, Tablero.y)
     tableroforma = love.physics.newRectangleShape(Tablero.ancho, Tablero.alto)  
