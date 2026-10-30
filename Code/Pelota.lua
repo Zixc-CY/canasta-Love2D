@@ -24,7 +24,7 @@ function Pelota.new(world, x, y, hud)
     self.body = love.physics.newBody(world, x, y, "dynamic")
     self.forma = love.physics.newCircleShape(self.radio)
     self.fixture = love.physics.newFixture(self.body, self.forma, 1)
-    self.fixture:setRestitution(0.7)
+    self.fixture:setRestitution(0.5)
     self.fixture:setFriction(5)
     self.body:setAngularDamping(2.5)
 

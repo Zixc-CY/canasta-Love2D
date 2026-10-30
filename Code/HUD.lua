@@ -52,18 +52,42 @@ function HUD:actualizar(dt)
     self.tiempo = math.max(0, self.tiempo - dt)
     if self.tiempo == 0 then
         self.juegoActivo = false
+        signal.emit("tiempoAgotado")
     end
 end
 
 function HUD:dibujar()
-    love.graphics.print("Puntaje: " .. self.puntaje, 380, 40, 0, 2, 2)
+    love.graphics.push("all")
+
+    love.graphics.setColor(0, 0.7, 0)
+    love.graphics.print("Puntaje: " .. self.puntaje, 650, 20, 0, 2, 2)
+
+    love.graphics.setColor(1, 1, 0)
     love.graphics.print("Tiempo: " .. math.ceil(self.tiempo), 20, 20, 0, 2, 2)
 
     if self.puntaje >= self.puntajeMaximo then
-        love.graphics.print("GANASTE", 20, 80)
+        love.graphics.setColor(0, 0, 1)
+        love.graphics.print(
+            "GANASTE",
+            (love.graphics.getWidth() - love.graphics.getFont():getWidth("GANASTE") * 3) / 2,
+            (love.graphics.getHeight() - love.graphics.getFont():getHeight() * 3) / 2,
+            0,
+            5,
+            5
+        )
     elseif self.tiempo <= 0 then
-        love.graphics.print("PERDISTE", 400, 300, 0, 3, 3)
+        love.graphics.setColor(1, 0, 0)
+        love.graphics.print(
+            "PERDISTE",
+            (love.graphics.getWidth() - love.graphics.getFont():getWidth("PERDISTE") * 3) / 2,
+            (love.graphics.getHeight() - love.graphics.getFont():getHeight() * 3) / 2,
+            0,
+            5,
+            5
+        )
     end
+
+    love.graphics.pop()
 end
 
 return HUD

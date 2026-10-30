@@ -1,21 +1,23 @@
 require('Code.Pelota')
-local HUD = require('Code.HUD')
+local HUD = require('Code.hud')
 --require('Code.jugador')
 require ('Code.sonido')
 signal = require ('Code.signal')
 require ('Code.Nuevascolisiones')
-
 --=================== DECLARACION ===================
-
+canasta= nil
 fondo= nil
 local maxPuntaje = 10
-local tiempoInicial = 10
+local tiempoInicial = 40
 local hud
 juegoCongelado = false
 
 --=================== Cargando ===================
 
 function love.load()
+    fuente = love.graphics.newFont("Assets/Fonts/ft.ttf", 16)
+    fuente:setFilter ("linear", "linear")
+love.graphics.setFont(fuente)
    -- iniciarjugador()
     cargarsonidos()
     hud = HUD.new(maxPuntaje, tiempoInicial)
@@ -32,7 +34,11 @@ function love.load()
     signal.register ("sumar_punto", function()
         signal.emit("agregar_tiempo", 5)
         hud:sumarPunto()
-    end)    
+    end) 
+    
+    signal.register("tiempoAgotado", function(puntaje)
+        juegoCongelado = true
+    end)
 
     signal.register("reiniciar", function()
         hud:reiniciar()
@@ -42,6 +48,7 @@ function love.load()
 
     love.window.setTitle("Cronómetro y Puntaje")
     fondo= love.graphics.newImage("Backround/Fondo.jpeg")
+    canasta= love.graphics.newImage("Backround/Canasta.png")
 end            
 
 --=================== Actualización ===================
@@ -71,11 +78,12 @@ end
 
 function love.draw()
     love.graphics.draw(fondo,0,0,0,0.5,0.625)
+    pelota:dibujar()
+     love.graphics.draw(canasta, 578, 20,0, 0.7, 0.9)
     hud:dibujar()
    -- if jugador.choca1 or jugador.choca2 or jugador.choca3 then
       --  love.graphics.print("¡Colisión detectada!", 10, 10)
   --  end
-    pelota:dibujar()
     --pelota:draw()
    -- dibujarjugador()
     --dibujarcolisiones()
